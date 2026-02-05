@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gửi bé Bỉn ❤️</title>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
         #password-screen {
             position: fixed;
@@ -63,10 +62,9 @@
         #btnYes { background-color: #00bcd4; color: white; }
         #btnNo { background-color: #bdbdbd; color: white; position: relative; z-index: 999; }
         
-        /* Khung chứa con mèo động */
-        .cat-container {
-            display: flex;
-            justify-content: center;
+        .cat-img {
+            width: 180px;
+            height: auto;
             margin-bottom: 10px;
         }
     </style>
@@ -81,10 +79,7 @@
 </div>
 
 <div class="container" id="mainCard">
-    <div class="cat-container" id="lottie-box">
-        <lottie-player id="catAnim" src="https://assets5.lottiefiles.com/packages/lf20_98v9p9p3.json"  background="transparent"  speed="1"  style="width: 180px; height: 180px;"  loop  autoplay></lottie-player>
-    </div>
-    
+    <img id="mainGif" class="cat-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wnpS8PC90ZXh0Pjwvc3ZnPg==" alt="Cat">
     <h1 id="question">Bé Bỉn ơi... <br> Em có iu tui hong? 🥰</h1>
     
     <div id="letter" class="letter-content">
@@ -92,7 +87,7 @@
 
         Đây là Valentine đầu tiên mình đón cùng nhau (dù là qua màn hình điện thoại) nên anh không thể để nó trôi qua bình thường được. Anh gửi chút "ngọt ngào" này đến em để tiếp năng lượng cho em nèeee!
 
-        Điều anh thích nhất ở em là đôi mắt và anh tự tin nhất ở anh cũng là đôi mắt. Nên anh đã đặt cho hai đứa mình hai chiếc dây chuyền có mặt là những đôi mắt “siu đẹp” ấy.
+        Điều anh thích nhất ở em là đôi mắt và anh tự tin nhất ở anh cũng là đôi mắt. Nên anh đã đặt cho hai đứa mình hai chiếc dây chuyền có mặt là những đôi mắt “siu đẹp” ấy. 
         
         Em là viên ngọc quý giá và luôn xứng đáng được yêu thương thật nhiều. Mong đồng chí Bỉn hiểu và phải luôn tự trân trọng mình nhé (vì anh cũng trân trọng em nhiều lắm lắm lắm lắm!).
 
@@ -123,7 +118,7 @@
     const question = document.getElementById('question');
     const letter = document.getElementById('letter');
     const btnGroup = document.getElementById('btnGroup');
-    const catAnim = document.getElementById('catAnim');
+    const mainGif = document.getElementById('mainGif');
 
     function moveButton() {
         const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 20);
@@ -140,9 +135,8 @@
         question.style.display = 'none';
         btnGroup.style.display = 'none';
         letter.style.display = 'block';
-        
-        // Khi đồng ý, mèo sẽ chuyển sang hiệu ứng bắn tim tung tóe (nếu bạn muốn đổi link khác)
-        catAnim.setAttribute('src', 'https://assets5.lottiefiles.com/packages/lf20_6wuzp9vz.json');
+        // Đổi thành mèo hạnh phúc khi nhấn Có
+        mainGif.src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wnpS7PC90ZXh0Pjwvc3ZnPg==";
         
         setInterval(() => {
             const heart = document.createElement('div');
