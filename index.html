@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gửi bé Bỉn ❤️</title>
     <style>
-        /* Màn hình khóa */
         #password-screen {
             position: fixed;
             top: 0; left: 0;
@@ -36,8 +35,6 @@
             cursor: pointer;
             font-weight: bold;
         }
-
-        /* Nội dung chính */
         body {
             display: flex;
             justify-content: center;
@@ -64,20 +61,31 @@
         button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
         #btnYes { background-color: #00bcd4; color: white; }
         #btnNo { background-color: #bdbdbd; color: white; position: relative; z-index: 999; }
-        img { width: 130px; margin-bottom: 5px; }
+        /* Cố định kích thước ảnh để không bị trống trải */
+        .img-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        img { width: 100%; height: auto; border-radius: 15px; }
     </style>
 </head>
 <body>
 
 <div id="password-screen">
     <h2 style="color: #006064;">Trang web bí mật dành cho Bỉn</h2>
-    <p>Nhập mật khẩu để mở khóa món quà nhé:</p>
+    <p>Nhập mật khẩu để mở khóa nhé:</p>
     <input type="password" id="passInput" placeholder="Mật khẩu là gì nhỉ?">
     <button onclick="checkPassword()">Mở khóa ❤️</button>
 </div>
 
 <div class="container" id="mainCard">
-    <img id="mainGif" src="https://media.tenor.com/2Y_9K_686y0AAAAj/mochi-mochi-peach-cat.gif">
+    <div class="img-container">
+        <img id="mainGif" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Cat%20Face.png" alt="Cat">
+    </div>
     <h1 id="question">Bé Bỉn ơi... <br> Em có iu tui hong? 🥰</h1>
     
     <div id="letter" class="letter-content">
@@ -99,7 +107,6 @@
 </div>
 
 <script>
-    // Mật khẩu đã được đổi thành tên của bạn
     const SECRET_PASSWORD = "nguyenngocminhtien"; 
 
     function checkPassword() {
@@ -134,11 +141,13 @@
         question.style.display = 'none';
         btnGroup.style.display = 'none';
         letter.style.display = 'block';
-        mainGif.src = "https://media.tenor.com/979u7N999_wAAAAj/peach-cat-love.gif"; 
+        // Đổi thành ảnh mèo trái tim khi nhấn Có
+        mainGif.src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Heart-Eyes.png"; 
         
         setInterval(() => {
             const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
+            const colors = ['❤️', '💙', '✨'];
+            heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
             heart.style.position = 'fixed';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '100vh';
