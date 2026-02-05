@@ -61,16 +61,13 @@
         button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
         #btnYes { background-color: #00bcd4; color: white; }
         #btnNo { background-color: #bdbdbd; color: white; position: relative; z-index: 999; }
-        /* Cố định kích thước ảnh để không bị trống trải */
-        .img-container {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        
+        /* Hiển thị con mèo bằng văn bản/biểu tượng để không bao giờ lỗi */
+        .cat-icon {
+            font-size: 80px;
+            margin-bottom: 10px;
+            display: block;
         }
-        img { width: 100%; height: auto; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -83,9 +80,7 @@
 </div>
 
 <div class="container" id="mainCard">
-    <div class="img-container">
-        <img id="mainGif" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Cat%20Face.png" alt="Cat">
-    </div>
+    <div id="catDisplay" class="cat-icon">🐱</div>
     <h1 id="question">Bé Bỉn ơi... <br> Em có iu tui hong? 🥰</h1>
     
     <div id="letter" class="letter-content">
@@ -124,7 +119,7 @@
     const question = document.getElementById('question');
     const letter = document.getElementById('letter');
     const btnGroup = document.getElementById('btnGroup');
-    const mainGif = document.getElementById('mainGif');
+    const catDisplay = document.getElementById('catDisplay');
 
     function moveButton() {
         const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 20);
@@ -141,8 +136,7 @@
         question.style.display = 'none';
         btnGroup.style.display = 'none';
         letter.style.display = 'block';
-        // Đổi thành ảnh mèo trái tim khi nhấn Có
-        mainGif.src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Heart-Eyes.png"; 
+        catDisplay.innerHTML = "😻"; // Đổi sang mèo hạnh phúc
         
         setInterval(() => {
             const heart = document.createElement('div');
