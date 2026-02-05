@@ -47,29 +47,87 @@
             text-align: center;
         }
         .container {
-            background: white;
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
             border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0, 188, 212, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 188, 212, 0.1);
             width: 85%;
             max-width: 450px;
             display: none; 
+            position: relative;
+            z-index: 10;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        h1 { color: #006064; font-size: 1.3rem; margin-top: 10px; }
-        .letter-content { text-align: left; color: #444; font-size: 0.95rem; white-space: pre-line; display: none; margin-top: 5px; }
-        .buttons { margin-top: 25px; display: flex; justify-content: center; gap: 15px; }
-        button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
+        h1 { color: #006064; font-size: 1.3rem; margin: 0; position: relative; z-index: 20;}
+        
+        /* Dòng chữ đắc ý: Một màu Cyan đơn sắc, nét mảnh, căn giữa */
+        .yey-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #00bcd4; /* Màu Cyan đơn sắc trẻ trung */
+            filter: blur(0.3px);
+            animation: funBounce 0.4s infinite alternate;
+            line-height: 1.5;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            transition: opacity 0.8s ease-out;
+            z-index: 30;
+        }
+
+        @keyframes funBounce {
+            from { transform: translate(-50%, -55%) scale(1) rotate(-1.5deg); }
+            to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
+        }
+
+        #real-letter {
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            text-align: left;
+            display: none;
+        }
+
+        .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin-top: 0; position: relative; z-index: 20; }
+        .buttons { margin-top: 30px; display: flex; justify-content: center; gap: 15px; position: relative; z-index: 20;}
+        button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; touch-action: none; }
         #btnYes { background-color: #00bcd4; color: white; }
         #btnNo { background-color: #bdbdbd; color: white; position: relative; z-index: 999; }
         
-        .cat-img {
-            width: 180px;
-            height: auto;
-            margin-bottom: 10px;
+        .cat-paw {
+            position: fixed;
+            font-size: 28px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            animation: pawFade 1.5s ease-out forwards;
+        }
+        @keyframes pawFade {
+            0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+            20% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: scale(1.3) rotate(15deg); }
+        }
+
+        #fireworksCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
         }
     </style>
 </head>
 <body>
+
+<canvas id="fireworksCanvas"></canvas>
 
 <div id="password-screen">
     <h2 style="color: #006064;">Trang web bí mật dành cho Bỉn</h2>
@@ -78,20 +136,23 @@
     <button onclick="checkPassword()">Mở khóa ❤️</button>
 </div>
 
-<div class="container" id="mainCard">
-    <img id="mainGif" class="cat-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wnpS8PC90ZXh0Pjwvc3ZnPg==" alt="Cat">
+<div class="container" id="mainCard" style="display: none;">
     <h1 id="question">Bé Bỉn ơi... <br> Em có iu tui hong? 🥰</h1>
     
-    <div id="letter" class="letter-content">
-        <strong style="color: #00838f; font-size: 1.1rem;">Happy Valentine’s Day, Bỉn iu zấu!!!</strong>
-
-        Đây là Valentine đầu tiên mình đón cùng nhau (dù là qua màn hình điện thoại) nên anh không thể để nó trôi qua bình thường được. Anh gửi chút "ngọt ngào" này đến em để tiếp năng lượng cho em nèeee!
-
-        Điều anh thích nhất ở em là đôi mắt và anh tự tin nhất ở anh cũng là đôi mắt. Nên anh đã đặt cho hai đứa mình hai chiếc dây chuyền có mặt là những đôi mắt “siu đẹp” ấy. 
+    <div id="letter-wrapper" style="position: relative; flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+        <span id="temp-text" class="yey-text" style="display: none;">Biết ngay là em có iu tui mòoooo 🎉</span>
         
-        Em là viên ngọc quý giá và luôn xứng đáng được yêu thương thật nhiều. Mong đồng chí Bỉn hiểu và phải luôn tự trân trọng mình nhé (vì anh cũng trân trọng em nhiều lắm lắm lắm lắm!).
+        <div id="real-letter" class="letter-content">
+            <strong style="color: #00838f; font-size: 1.1rem;">Happy Valentine’s Day, Bỉn iu zấu!!!</strong>
 
-        Giữ gìn sức khỏe nheeee!!! Anh iu em ❤️
+            Đây là Valentine đầu tiên mình đón cùng nhau (dù là qua màn hình điện thoại) nên anh không thể để nó trôi qua bình thường được. Anh gửi chút "ngọt ngào" này đến em để tiếp năng lượng cho em nèeee!
+
+            Điều anh thích nhất ở em là đôi mắt và anh tự tin nhất ở anh cũng là đôi mắt. Nên anh đã đặt cho hai đứa mình hai chiếc dây chuyền có mặt là những đôi mắt “siu đẹp” ấy. 
+            
+            Em là viên ngọc quý giá và luôn xứng đáng được yêu thương thật nhiều. Mong đồng chí Bỉn hiểu và phải luôn tự trân trọng mình nhé (vì anh cũng trân trọng em nhiều lắm lắm lắm lắm!).
+
+            Giữ gìn sức khỏe nheeee!!! Anh iu em ❤️
+        </div>
     </div>
 
     <div class="buttons" id="btnGroup">
@@ -107,18 +168,35 @@
         const input = document.getElementById('passInput').value.toLowerCase().trim();
         if (input === SECRET_PASSWORD) {
             document.getElementById('password-screen').style.display = 'none';
-            document.getElementById('mainCard').style.display = 'block';
+            document.getElementById('mainCard').style.display = 'flex';
+            startCatPaws(); 
         } else {
             alert("Hổng đúng mật khẩu rồi Biển ơi!");
         }
     }
 
+    function startCatPaws() {
+        setInterval(() => {
+            for(let i = 0; i < 2; i++) {
+                const paw = document.createElement('div');
+                paw.innerHTML = '🐾';
+                paw.className = 'cat-paw';
+                paw.style.left = Math.random() * 95 + 'vw';
+                paw.style.top = Math.random() * 95 + 'vh';
+                paw.style.transform = `rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(paw);
+                setTimeout(() => paw.remove(), 1500);
+            }
+        }, 400); 
+    }
+
     const btnNo = document.getElementById('btnNo');
     const btnYes = document.getElementById('btnYes');
     const question = document.getElementById('question');
-    const letter = document.getElementById('letter');
     const btnGroup = document.getElementById('btnGroup');
-    const mainGif = document.getElementById('mainGif');
+    const canvas = document.getElementById('fireworksCanvas');
+    const tempText = document.getElementById('temp-text');
+    const realLetter = document.getElementById('real-letter');
 
     function moveButton() {
         const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 20);
@@ -134,23 +212,79 @@
     btnYes.addEventListener('click', () => {
         question.style.display = 'none';
         btnGroup.style.display = 'none';
-        letter.style.display = 'block';
-        // Đổi thành mèo hạnh phúc khi nhấn Có
-        mainGif.src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wnpS7PC90ZXh0Pjwvc3ZnPg==";
+        tempText.style.display = 'flex'; 
+        canvas.style.display = 'block';
         
+        initFireworks();
+
+        setTimeout(() => {
+            tempText.style.opacity = '0';
+            setTimeout(() => {
+                tempText.style.display = 'none';
+                realLetter.style.display = 'block';
+                setTimeout(() => { realLetter.style.opacity = '1'; }, 50);
+            }, 800); 
+        }, 3500);
+
         setInterval(() => {
             const heart = document.createElement('div');
-            const colors = ['❤️', '💙', '✨'];
+            const colors = ['❤️', '💙', '✨', '💖'];
             heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
             heart.style.position = 'fixed';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '100vh';
             heart.style.fontSize = Math.random() * 20 + 20 + 'px';
             heart.style.transition = '3s linear';
+            heart.style.zIndex = '15';
             document.body.appendChild(heart);
             setTimeout(() => { heart.style.top = '-10vh'; heart.style.opacity = '0'; }, 100);
             setTimeout(() => heart.remove(), 3000);
-        }, 200);
+        }, 250);
+    });
+
+    function initFireworks() {
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.velocity = { x: (Math.random() - 0.5) * 12, y: (Math.random() - 0.5) * 12 };
+                this.alpha = 1; this.friction = 0.95; this.gravity = 0.12;
+            }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath();
+                ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = this.color; ctx.fill(); ctx.restore();
+            }
+            update() {
+                this.velocity.x *= this.friction; this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity; this.x += this.velocity.x;
+                this.y += this.velocity.y; this.alpha -= 0.012;
+            }
+        }
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height * 0.5);
+            const color = `hsl(${Math.random() * 360}, 85%, 65%)`;
+            for (let i = 0; i < 50; i++) particles.push(new Particle(x, y, color));
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(224, 247, 250, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                if (p.alpha > 0) { p.update(); p.draw(); } else { particles.splice(i, 1); }
+            });
+            if (Math.random() < 0.06) createFirework();
+        }
+        animate();
+    }
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     });
 </script>
 
