@@ -62,7 +62,6 @@
             max-height: 85vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
         }
 
         h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; flex-shrink: 0; position: relative; z-index: 20;}
@@ -72,12 +71,11 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             overflow: hidden;
         }
 
-        /* Chữ Yey đắc ý */
-        .yey-text {
+        /* Chữ Yey hiện ra chính giữa khung trắng tuyệt đối */
+        #temp-text {
             display: none;
             position: absolute;
             top: 50%;
@@ -90,7 +88,8 @@
             filter: blur(0.3px);
             animation: funBounce 0.4s infinite alternate;
             line-height: 1.5;
-            z-index: 30;
+            z-index: 100; /* Nằm trên cả nội dung thư */
+            text-align: center;
         }
 
         @keyframes funBounce {
@@ -125,7 +124,7 @@
             opacity: 0;
             transition: opacity 1s;
             flex-shrink: 0;
-            z-index: 1000; /* Đưa nhóm này lên trên cùng của container */
+            z-index: 200; /* Đảm bảo nằm trên khung cuộn */
             position: relative;
         }
 
@@ -135,11 +134,9 @@
         #btnYes, #btnDaaaa { background-color: #00bcd4; color: white; }
         #btnNo, #btnKeTui { background-color: #bdbdbd; color: white; }
         
-        /* Xử lý nút Daaaa phóng to không bị che khuất */
         #btnDaaaa { 
             transition: transform 0.3s, width 0.3s, height 0.3s, font-size 0.3s; 
-            z-index: 10001; /* Ưu tiên cao nhất trong khối */
-            position: relative;
+            z-index: 1000;
         }
 
         .cat-paw {
@@ -162,7 +159,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #e0f7fa;
             display: none;
-            z-index: 20000; /* Cao nhất */
+            z-index: 20000;
         }
 
         .floating-ngoan {
@@ -229,7 +226,7 @@
     <h1 id="question">Bé Bỉn ơi... <br> Em có mún iu tui hong? 🥰</h1>
     
     <div id="letter-wrapper">
-        <span id="temp-text" class="yey-text">Biết ngay là em có iu tui mòoooo 🎉</span>
+        <span id="temp-text">Biết ngay là em có iu tui mòoooo 🎉</span>
         
         <div id="real-letter" class="letter-content">
             <strong style="color: #00838f; font-size: 1.1rem;">Happy Valentine’s Day, Bỉn iu zấu!!!</strong>
@@ -326,9 +323,8 @@
             setTimeout(() => {
                 tempText.style.display = 'none';
                 realLetter.style.display = 'block';
-                document.getElementById('letter-wrapper').style.justifyContent = 'flex-start';
                 setTimeout(() => { 
-                    realLetter.opacity = '1';
+                    realLetter.style.opacity = '1';
                     const finalGroup = document.getElementById('final-choice-group');
                     finalGroup.style.display = 'flex';
                     setTimeout(() => finalGroup.style.opacity = '1', 100);
@@ -357,16 +353,17 @@
         
         if(yesScale > 5) {
             btnDaaaa.style.position = 'fixed';
-            btnDaaaa.style.top = '0';
-            btnDaaaa.style.left = '0';
+            btnDaaaa.style.top = '50%';
+            btnDaaaa.style.left = '50%';
             btnDaaaa.style.width = '100vw';
             btnDaaaa.style.height = '100vh';
-            btnDaaaa.style.zIndex = '20001'; /* Đè lên tất cả */
+            btnDaaaa.style.zIndex = '20001'; /* Đè lên toàn bộ bức thư và container */
             btnDaaaa.style.borderRadius = '0';
             btnDaaaa.style.fontSize = '3rem';
             btnDaaaa.style.display = 'flex';
             btnDaaaa.style.alignItems = 'center';
             btnDaaaa.style.justifyContent = 'center';
+            btnDaaaa.style.transform = 'translate(-50%, -50%) scale(1)'; /* Dùng translate để căn giữa màn hình */
         }
     });
 
