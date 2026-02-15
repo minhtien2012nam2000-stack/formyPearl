@@ -59,20 +59,19 @@
             display: none; 
             position: relative;
             z-index: 10;
-            /* Giới hạn chiều cao container để không tràn màn hình điện thoại */
-            max-height: 85vh;
+            max-height: 85vh; /* Giới hạn chiều cao để không tràn màn hình */
             display: flex;
             flex-direction: column;
         }
 
-        h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; position: relative; z-index: 20; flex-shrink: 0;}
+        h1 { color: #006064; font-size: 1.2rem; margin-bottom: 15px; flex-shrink: 0; position: relative; z-index: 20;}
         
         #letter-wrapper {
             position: relative;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Để chứa thanh cuộn bên trong */
+            overflow: hidden; /* Chứa thanh cuộn bên trong */
         }
 
         .yey-text {
@@ -99,37 +98,37 @@
             to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
         }
 
-        /* Vùng nội dung thư có thanh cuộn */
+        /* Vùng nội dung thư có thanh cuộn mượt */
         #real-letter {
             opacity: 0;
             transition: opacity 1s ease-in;
             text-align: left;
             display: none;
-            overflow-y: auto; /* Cho phép cuộn dọc */
-            padding-right: 5px;
-            /* Tinh chỉnh thanh cuộn cho xinh */
+            overflow-y: auto;
+            padding-right: 8px;
             scrollbar-width: thin;
             scrollbar-color: #00bcd4 transparent;
         }
         
-        #real-letter::-webkit-scrollbar { width: 4px; }
+        #real-letter::-webkit-scrollbar { width: 3px; }
         #real-letter::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
 
         .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin-top: 0; position: relative; z-index: 20; }
         
-        /* Cố định nhóm nút bấm ở cuối thư */
+        /* Cố định nhóm nút Dạ/Ok ở cuối thư */
         #final-choice-group {
-            margin-top: 20px;
+            margin-top: 15px;
             display: none;
             justify-content: center;
             gap: 15px;
             opacity: 0;
             transition: opacity 1s;
-            flex-shrink: 0; /* Không cho phép bị co lại */
-            padding-bottom: 5px;
+            flex-shrink: 0;
+            padding: 10px 0 5px 0;
+            border-top: 1px dashed rgba(0, 188, 212, 0.2);
         }
 
-        .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; position: relative; z-index: 20; flex-shrink: 0;}
+        .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-shrink: 0; position: relative; z-index: 20;}
         button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; touch-action: none; }
         
         #btnYes, #btnDaaaa { background-color: #00bcd4; color: white; }
@@ -165,7 +164,6 @@
             font-size: 1.4rem;
             font-weight: 500;
             color: #5f9ea0;
-            filter: blur(0.2px);
             white-space: nowrap;
             pointer-events: none;
             z-index: 10002;
@@ -193,7 +191,7 @@
             opacity: 0;
             transition: opacity 2s ease-in;
             z-index: 10003;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             padding: 20px;
             border-radius: 25px;
             backdrop-filter: blur(5px);
@@ -395,17 +393,14 @@
             const ngoan = document.createElement('div');
             ngoan.className = 'floating-ngoan';
             ngoan.innerHTML = 'Ngoan thíiiiiiiii';
-            
             ngoan.style.left = Math.random() * 80 + 'vw';
             ngoan.style.top = Math.random() * 80 + 'vh';
-            
             ngoan.style.setProperty('--mx', (Math.random() * 40 - 20) + 'vw');
             ngoan.style.setProperty('--my', (Math.random() * 40 - 20) + 'vh');
             ngoan.style.setProperty('--mr', (Math.random() * 40 - 20) + 'deg');
             ngoan.style.setProperty('--ex', (Math.random() * 60 - 30) + 'vw');
             ngoan.style.setProperty('--ey', (Math.random() * 60 - 30) + 'vh');
             ngoan.style.setProperty('--er', (Math.random() * 100 - 50) + 'deg');
-            
             screen.appendChild(ngoan);
             setTimeout(() => ngoan.remove(), 6000);
         }, 1200);
