@@ -51,7 +51,7 @@
 
         .container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 25px 20px;
+            padding: 25px;
             border-radius: 30px;
             box-shadow: 0 15px 35px rgba(0, 188, 212, 0.1);
             width: 85%;
@@ -59,56 +59,51 @@
             display: none; 
             position: relative;
             z-index: 10;
-            max-height: 85vh;
-            display: flex;
+            max-height: 80vh; /* Giới hạn chiều cao khung trắng */
             flex-direction: column;
-            justify-content: center;
         }
 
-        h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; flex-shrink: 0; position: relative; z-index: 20;}
+        h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; flex-shrink: 0;}
         
         #letter-wrapper {
             position: relative;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Giữ mọi thứ ở giữa khi chưa hiện thư */
             overflow: hidden;
+            min-height: 150px; /* Đảm bảo có không gian cho chữ yey */
         }
 
-        /* Khôi phục dòng chữ đắc ý căn giữa khung trắng */
+        /* KHÔI PHỤC CHỮ "BIẾT NGAY..." CHÍNH GIỮA TUYỆT ĐỐI */
         .yey-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: #00bcd4;
-            filter: blur(0.3px);
-            animation: funBounce 0.4s infinite alternate;
-            line-height: 1.5;
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
-            transition: opacity 0.8s ease-out;
-            z-index: 30;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #00bcd4;
+            filter: blur(0.3px);
+            animation: superBounce 0.4s infinite alternate;
+            z-index: 100;
+            text-align: center;
         }
 
-        @keyframes funBounce {
-            from { transform: translate(-50%, -55%) scale(1) rotate(-1.5deg); }
-            to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
+        @keyframes superBounce {
+            from { transform: translate(-50%, -60%) scale(1) rotate(-2deg); }
+            to { transform: translate(-50%, -40%) scale(1.1) rotate(2deg); }
         }
 
-        /* Vùng nội dung thư có thanh cuộn */
+        /* Scroll View cho nội dung thư */
         #real-letter {
             opacity: 0;
             transition: opacity 1s ease-in;
             text-align: left;
             display: none;
             overflow-y: auto;
-            padding-right: 5px;
+            padding-right: 10px;
             scrollbar-width: thin;
             scrollbar-color: #00bcd4 transparent;
         }
@@ -116,19 +111,21 @@
         #real-letter::-webkit-scrollbar { width: 3px; }
         #real-letter::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
 
-        .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin-top: 0; position: relative; z-index: 20; }
+        .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin: 0; }
         
+        /* Cố định nút ở dưới cùng */
         #final-choice-group {
             margin-top: 15px;
             display: none;
             justify-content: center;
             gap: 15px;
             opacity: 0;
-            transition: opacity 1s;
             flex-shrink: 0;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(0, 188, 212, 0.1);
         }
 
-        .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-shrink: 0; position: relative; z-index: 20;}
+        .buttons { margin-top: 15px; display: flex; justify-content: center; gap: 15px; flex-shrink: 0; }
         button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; touch-action: none; }
         
         #btnYes, #btnDaaaa { background-color: #00bcd4; color: white; }
@@ -184,14 +181,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: #00695c;
             width: 75%;
             font-weight: bold;
             opacity: 0;
             transition: opacity 2s ease-in;
             z-index: 10003;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             padding: 20px;
             border-radius: 25px;
             backdrop-filter: blur(5px);
@@ -223,7 +220,7 @@
     <h1 id="question">Bé Bỉn ơi... <br> Em có mún iu tui hong? 🥰</h1>
     
     <div id="letter-wrapper">
-        <span id="temp-text" class="yey-text" style="display: none;">Biết ngay là em có iu tui mòoooo 🎉</span>
+        <div id="temp-text" class="yey-text">Biết ngay là em có iu tui mòoooo 🎉</div>
         
         <div id="real-letter" class="letter-content">
             <strong style="color: #00838f; font-size: 1.1rem;">Happy Valentine’s Day, Bỉn iu zấu!!!</strong>
@@ -295,6 +292,7 @@
     const canvas = document.getElementById('fireworksCanvas');
     const tempText = document.getElementById('temp-text');
     const realLetter = document.getElementById('real-letter');
+    const finalGroup = document.getElementById('final-choice-group');
 
     function moveButton() {
         const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 20);
@@ -310,7 +308,7 @@
     btnYes.addEventListener('click', () => {
         question.style.display = 'none';
         btnGroup.style.display = 'none';
-        tempText.style.display = 'flex'; 
+        tempText.style.display = 'flex'; // Hiện chữ đắc ý
         canvas.style.display = 'block';
         initFireworks();
 
@@ -319,17 +317,15 @@
             setTimeout(() => {
                 tempText.style.display = 'none';
                 realLetter.style.display = 'block';
-                // Chỉnh lại cách căn chỉnh wrapper để thanh cuộn hoạt động tốt
-                document.getElementById('letter-wrapper').style.justifyContent = 'flex-start';
                 setTimeout(() => { 
                     realLetter.style.opacity = '1';
-                    const finalGroup = document.getElementById('final-choice-group');
                     finalGroup.style.display = 'flex';
                     setTimeout(() => finalGroup.style.opacity = '1', 100);
                 }, 50);
             }, 800); 
         }, 3500);
 
+        // Hiệu ứng trái tim
         setInterval(() => {
             const heart = document.createElement('div');
             heart.innerHTML = ['❤️', '💙', '✨', '💖'][Math.floor(Math.random() * 4)];
@@ -370,7 +366,6 @@
         document.getElementById('final-screen').style.display = 'block';
         createPetals();
         startFloatingNgoan();
-        
         setTimeout(() => {
             document.getElementById('selfie-request').style.opacity = '1';
         }, 3000);
