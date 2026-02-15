@@ -59,21 +59,24 @@
             display: none; 
             position: relative;
             z-index: 10;
-            max-height: 85vh; /* Giới hạn chiều cao để không tràn màn hình */
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
-        h1 { color: #006064; font-size: 1.2rem; margin-bottom: 15px; flex-shrink: 0; position: relative; z-index: 20;}
+        h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; flex-shrink: 0; position: relative; z-index: 20;}
         
         #letter-wrapper {
             position: relative;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Chứa thanh cuộn bên trong */
+            justify-content: center; /* Giữ mọi thứ ở giữa khi chưa hiện thư */
+            overflow: hidden;
         }
 
+        /* Khôi phục dòng chữ đắc ý căn giữa khung trắng */
         .yey-text {
             display: flex;
             align-items: center;
@@ -88,7 +91,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
+            width: 100%;
             transition: opacity 0.8s ease-out;
             z-index: 30;
         }
@@ -98,14 +101,14 @@
             to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
         }
 
-        /* Vùng nội dung thư có thanh cuộn mượt */
+        /* Vùng nội dung thư có thanh cuộn */
         #real-letter {
             opacity: 0;
             transition: opacity 1s ease-in;
             text-align: left;
             display: none;
             overflow-y: auto;
-            padding-right: 8px;
+            padding-right: 5px;
             scrollbar-width: thin;
             scrollbar-color: #00bcd4 transparent;
         }
@@ -115,7 +118,6 @@
 
         .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin-top: 0; position: relative; z-index: 20; }
         
-        /* Cố định nhóm nút Dạ/Ok ở cuối thư */
         #final-choice-group {
             margin-top: 15px;
             display: none;
@@ -124,8 +126,6 @@
             opacity: 0;
             transition: opacity 1s;
             flex-shrink: 0;
-            padding: 10px 0 5px 0;
-            border-top: 1px dashed rgba(0, 188, 212, 0.2);
         }
 
         .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-shrink: 0; position: relative; z-index: 20;}
@@ -319,6 +319,8 @@
             setTimeout(() => {
                 tempText.style.display = 'none';
                 realLetter.style.display = 'block';
+                // Chỉnh lại cách căn chỉnh wrapper để thanh cuộn hoạt động tốt
+                document.getElementById('letter-wrapper').style.justifyContent = 'flex-start';
                 setTimeout(() => { 
                     realLetter.style.opacity = '1';
                     const finalGroup = document.getElementById('final-choice-group');
