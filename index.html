@@ -49,6 +49,7 @@
             text-align: center;
         }
 
+        /* Khung container trắng cho tâm thư */
         .container {
             background: rgba(255, 255, 255, 0.95);
             padding: 25px 20px;
@@ -60,41 +61,40 @@
             position: relative;
             z-index: 10;
             max-height: 85vh;
-            display: flex;
             flex-direction: column;
         }
 
         h1 { color: #006064; font-size: 1.2rem; margin: 0 0 15px 0; flex-shrink: 0; position: relative; z-index: 20;}
         
+        /* Chữ Yey hiện trực tiếp trên nền web (không ô trắng) */
+        .yey-text {
+            display: none;
+            position: fixed; /* Cố định giữa màn hình thiết bị */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #00bcd4;
+            filter: blur(0.3px);
+            animation: superBounce 0.4s infinite alternate;
+            z-index: 1000; /* Nằm trên cả container */
+            text-align: center;
+            pointer-events: none;
+        }
+
+        @keyframes superBounce {
+            from { transform: translate(-50%, -55%) scale(1) rotate(-1.5deg); }
+            to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
+        }
+
         #letter-wrapper {
             position: relative;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-        }
-
-        /* Chữ Yey hiện ra chính giữa khung trắng tuyệt đối */
-        #temp-text {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: #00bcd4;
-            filter: blur(0.3px);
-            animation: funBounce 0.4s infinite alternate;
-            line-height: 1.5;
-            z-index: 100; /* Nằm trên cả nội dung thư */
-            text-align: center;
-        }
-
-        @keyframes funBounce {
-            from { transform: translate(-50%, -55%) scale(1) rotate(-1.5deg); }
-            to { transform: translate(-50%, -45%) scale(1.08) rotate(1.5deg); }
         }
 
         /* Vùng nội dung thư có thanh cuộn */
@@ -115,7 +115,7 @@
 
         .letter-content { color: #444; font-size: 0.95rem; white-space: pre-line; margin-top: 0; }
         
-        /* Cố định nhóm nút bấm */
+        /* Nhóm nút bấm */
         #final-choice-group {
             margin-top: 15px;
             display: none;
@@ -124,8 +124,7 @@
             opacity: 0;
             transition: opacity 1s;
             flex-shrink: 0;
-            z-index: 200; /* Đảm bảo nằm trên khung cuộn */
-            position: relative;
+            z-index: 100;
         }
 
         .buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; position: relative; z-index: 20; flex-shrink: 0;}
@@ -134,9 +133,26 @@
         #btnYes, #btnDaaaa { background-color: #00bcd4; color: white; }
         #btnNo, #btnKeTui { background-color: #bdbdbd; color: white; }
         
+        /* Hiệu ứng phóng to nút Dạaaaa */
         #btnDaaaa { 
             transition: transform 0.3s, width 0.3s, height 0.3s, font-size 0.3s; 
-            z-index: 1000;
+            z-index: 10001; 
+        }
+
+        .btn-daaaa-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 999999 !important;
+            border-radius: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 3.5rem !important;
+            margin: 0 !important;
+            transform: none !important;
         }
 
         .cat-paw {
@@ -159,7 +175,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #e0f7fa;
             display: none;
-            z-index: 20000;
+            z-index: 100000;
         }
 
         .floating-ngoan {
@@ -215,6 +231,8 @@
 
 <canvas id="fireworksCanvas"></canvas>
 
+<div id="temp-text" class="yey-text">Biết ngay là em có iu tui mòoooo 🎉</div>
+
 <div id="password-screen">
     <h2 style="color: #006064;">Trang web bí mật dành cho Bỉn</h2>
     <p>Nhập mật khẩu để mở khóa nhé:</p>
@@ -226,8 +244,6 @@
     <h1 id="question">Bé Bỉn ơi... <br> Em có mún iu tui hong? 🥰</h1>
     
     <div id="letter-wrapper">
-        <span id="temp-text">Biết ngay là em có iu tui mòoooo 🎉</span>
-        
         <div id="real-letter" class="letter-content">
             <strong style="color: #00838f; font-size: 1.1rem;">Happy Valentine’s Day, Bỉn iu zấu!!!</strong>
             Đây là Valentine đầu tiên mình đón cùng nhau (dù là không được ở bên nhau) nên anh không thể để nó trôi qua bình thường được. Anh gửi chút "ngọt ngào" này đến em, tuy chậm trễ vài ngày, nhưng anh hy vọng vẫn kịp để tiếp năng lượng cho em nheeeee!
@@ -314,6 +330,9 @@
     btnYes.addEventListener('click', () => {
         document.getElementById('question').style.display = 'none';
         btnGroup.style.display = 'none';
+        document.getElementById('mainCard').style.backgroundColor = 'transparent'; // Ẩn ô trắng tạm thời
+        document.getElementById('mainCard').style.boxShadow = 'none';
+        
         tempText.style.display = 'flex'; 
         canvas.style.display = 'block';
         initFireworks();
@@ -322,6 +341,9 @@
             tempText.style.opacity = '0';
             setTimeout(() => {
                 tempText.style.display = 'none';
+                // Hiện lại khung trắng cho bức thư
+                document.getElementById('mainCard').style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                document.getElementById('mainCard').style.boxShadow = '0 15px 35px rgba(0, 188, 212, 0.1)';
                 realLetter.style.display = 'block';
                 setTimeout(() => { 
                     realLetter.style.opacity = '1';
@@ -352,18 +374,8 @@
         btnDaaaa.style.transform = `scale(${yesScale})`;
         
         if(yesScale > 5) {
-            btnDaaaa.style.position = 'fixed';
-            btnDaaaa.style.top = '50%';
-            btnDaaaa.style.left = '50%';
-            btnDaaaa.style.width = '100vw';
-            btnDaaaa.style.height = '100vh';
-            btnDaaaa.style.zIndex = '20001'; /* Đè lên toàn bộ bức thư và container */
-            btnDaaaa.style.borderRadius = '0';
-            btnDaaaa.style.fontSize = '3rem';
-            btnDaaaa.style.display = 'flex';
-            btnDaaaa.style.alignItems = 'center';
-            btnDaaaa.style.justifyContent = 'center';
-            btnDaaaa.style.transform = 'translate(-50%, -50%) scale(1)'; /* Dùng translate để căn giữa màn hình */
+            btnDaaaa.classList.add('btn-daaaa-overlay');
+            btnKeTui.style.display = 'none';
         }
     });
 
